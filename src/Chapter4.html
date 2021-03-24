@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h4><b>Installing Packages</b></h4>
+<p>To use official Julia module you download and install the package containing them.&nbsp; You can browse the available
+    packages here:&nbsp;<a href="https://julialang.org/packages/" target="_blank">https://julialang.org/packages/</a>.&nbsp;
+    To download
+    and install a package, press ']' from within the REPL. Press [backspace] or [ctrl]-C to exit the package manager.
+    Use the 'add' command to add a package to the package manager. Use the 'status' command sto see what packages you
+    have installed. The
+    help command will list all available package manager commands.&nbsp; If you want to see extra details on a command
+    use 'help [command]'.</p>
+<pre class="block-code">julia&gt; ]
+    (@v1.4) pkg&gt; add Calculus
+    (@v1.4) pkg&gt; status
+    Status `C:\Users\edwar\.julia\environments\v1.4\Project.toml`
+    [49dc2e85] Calculus v0.5.1
+    [587475ba] Flux v0.10.4
+    [4076af6c] JuMP v0.21.2
+    (@v1.4) pkg&gt; help
+    .
+    .
+    .
+</pre>
+Back in the REPL (or source file) we use the keyword 'using' to make the package available to the current session.&nbsp;
+After we have declared 'using', we can view all symbols in the package with the 'names' function.&nbsp; Although for any
+real information
+it is best to visit the documentation page (<a href="https://juliahub.com/ui/Packages/Calculus/G3wEN/0.5.1"
+                                               target="_blank">https://juliahub.com/ui/Packages/Calculus/G3wEN/0.5.1</a>).
+<pre style="padding: 5px; border: 1px solid grey; background-color: rgb(238, 238, 238);"><b>julia&gt; using Calculus
+
+julia&gt; Calculus.differentiate("x^2", :x)
+:(2 * 1 * x ^ (2 - 1))</b><pre style="font-weight: bold;"></pre></pre>
+
+</body>
+</html>

@@ -1,0 +1,2 @@
+use "npm i -g" to install the juice inliner package
+type "npm inline -- src dest" to inline src to dest

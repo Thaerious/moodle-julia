@@ -1,0 +1,53 @@
+
+.section{
+    position: relative;
+    left: 10%;
+    width: 80%;
+}
+
+table{
+    border: 1px solid black;
+    min-width: 600px;
+}
+
+table td{
+    border: 1px dotted gray;
+}
+
+.footer{
+    position: relative;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.8em;
+    top: -15px;
+}
+
+.section .contents{
+    position: relative;
+    left: 2.5%;
+    width: 97.5%;
+    max-width: 800px;
+    font-size: 1.2em;
+    margin-bottom: 50px;
+}
+
+div.block-code, pre.block-code{
+    font-family: Consolas, monaco, monospace;
+    font-weight: normal;
+    padding: 5px;
+    border: 1px solid grey;
+    background-color: #eee;
+    font-size: 0.9em;
+}
+
+pre.block-code.no-pre{
+    white-space: pre-wrap;
+}
+
+.inline-code{
+    font-family: Consolas, monaco, monospace;
+    font-weight: bold;
+    padding: 0px 2px 0px 2px;
+    border: 1px solid grey;
+    background-color: #eee;
+}

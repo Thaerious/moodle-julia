@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="section">
+    <h2>Variables</h2>
+    <div class="contents">
+        <p>The remainder of this section will be done in the interactive REPL shell.&nbsp; To exit the shell type
+            <b>exit()</b>. In the following examples any line that starts with the '#' symbol is a comment (you don't
+            have
+            to type this, they are for clarity).
+            Any line that starts with 'julia&gt;' is what you type into the terminal. Tre remaining is output generated
+            by
+            julia.
+        </p>
+        <p>Variables are used to store a temporary value.&nbsp; They are useful to retain a calculated value for later
+            use.&nbsp;
+            All variable declarations consist of a name and an assignment. Variable can have all the usual mathematical
+            operations performed on
+            them.
+        </p>
+        <p>
+            Variable names have no semantic meaning, and are case-sensitive.&nbsp; Julia will not treat variables
+            differently
+            because of their name.</p>
+        <pre class="block-code">
+            # Assign the value 10 to the variable x
+            julia&gt; x = 10
+            10
+
+            # Assign the value 20 to the variable y
+            julia&gt; y = 20
+            20
+
+            # Sum x with y and assign it to z
+            julia&gt; z = x + y
+            20
+
+            # In the REPL you can print a value to the screen by typeing the variable name
+            julia&gt; z
+            30
+
+            # Later, when running files, you can print the value with the println() function
+            julia&gt; println(z)
+            30
+
+            # You can reassign values to a variable
+            julia&gt; z = 0
+            0
+
+            # You can assign values of a different type to the variable, in this case a string
+            julia&gt; z = "ima string!"
+            ima string!
+
+            # Any utf-8 character is permitted
+            julia&gt; δ = 0.00001
+            1.0e-5
+        </pre>
+        <p>
+            Strings, integers, and floating-point numbers are the building blocks of most programming languages.&nbsp;
+            Strings are used for representing lexical values, while integers and floating-points are used for
+            representing
+            numerical values.&nbsp; Julia is
+            a loosely typed language.&nbsp; That is, you do not have to explicitly declare the type of variables.&nbsp;
+            However, you have the option to do so.
+        </p>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Numerical Types</h2>
+    <div class="contents">
+        <p>
+            Julia has a wide range of integer and floating-point primitives.&nbsp; In short numbers integers can not
+            have a
+            decimal value, while floating-point numbers can have a decimal value.&nbsp; The integer representation of
+            the number 'one' is '1' while the floating-point representation is '1.0'.&nbsp; There is an additional type
+            called the 'Bool' which represents true and false values, a mapping from 0 and 1 respectively.&nbsp; The
+            integer
+            and floating-point values are represented in hardware by a number of bits, the more bits, the larger the
+            maximum value, at a cost of space and possibly performance.&nbsp;Below is an enumeration of the numeric
+            primitive
+            types.&nbsp;
+        </p>
+        <table>
+            <tbody>
+            <tr>
+                <th>Type</th>
+                <th>Signed?</th>
+                <th>Number of bits</th>
+                <th>Smallest value</th>
+                <th>Largest value</th>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Int8"><code>Int8</code></a></td>
+                <td>✓</td>
+                <td>8</td>
+                <td>-2^7</td>
+                <td>2^7 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.UInt8"><code>UInt8</code></a></td>
+                <td></td>
+                <td>8</td>
+                <td>0</td>
+                <td>2^8 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Int16"><code>Int16</code></a></td>
+                <td>✓</td>
+                <td>16</td>
+                <td>-2^15</td>
+                <td>2^15 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.UInt16"><code>UInt16</code></a></td>
+                <td></td>
+                <td>16</td>
+                <td>0</td>
+                <td>2^16 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Int32"><code>Int32</code></a></td>
+                <td>✓</td>
+                <td>32</td>
+                <td>-2^31</td>
+                <td>2^31 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.UInt32"><code>UInt32</code></a></td>
+                <td></td>
+                <td>32</td>
+                <td>0</td>
+                <td>2^32 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Int64"><code>Int64</code></a></td>
+                <td>✓</td>
+                <td>64</td>
+                <td>-2^63</td>
+                <td>2^63 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.UInt64"><code>UInt64</code></a></td>
+                <td></td>
+                <td>64</td>
+                <td>0</td>
+                <td>2^64 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Int128"><code>Int128</code></a></td>
+                <td>✓</td>
+                <td>128</td>
+                <td>-2^127</td>
+                <td>2^127 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.UInt128"><code>UInt128</code></a></td>
+                <td></td>
+                <td>128</td>
+                <td>0</td>
+                <td>2^128 - 1</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Bool"><code>Bool</code></a></td>
+                <td>N/A</td>
+                <td>8</td>
+                <td><code>false</code>&nbsp;(0)</td>
+                <td><code>true</code>&nbsp;(1)</td>
+            </tr>
+            </tbody>
+            <caption align="bottom">Integer Types</caption>
+        </table>
+        <br><br>
+        <table>
+            <tbody>
+            <tr>
+                <th>Type</th>
+                <th>Precision</th>
+                <th>Number of bits</th>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Float16"><code>Float16</code></a></td>
+                <td><a href="https://en.wikipedia.org/wiki/Half-precision_floating-point_format">half</a></td>
+                <td>16</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Float32"><code>Float32</code></a></td>
+                <td><a href="https://en.wikipedia.org/wiki/Single_precision_floating-point_format">single</a></td>
+                <td>32</td>
+            </tr>
+            <tr>
+                <td><a href="https://docs.julialang.org/en/v1/base/numbers/#Core.Float64"><code>Float64</code></a></td>
+                <td><a href="https://en.wikipedia.org/wiki/Double_precision_floating-point_format">double</a></td>
+                <td>64</td>
+            </tr>
+            </tbody>
+            <caption align="bottom">Floating-Point Types</caption>
+        </table>
+        <br><br>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Strings &amp; Characters (char)</h2>
+    <div class="contents">
+        <p>
+            Strings are a finite sequence of characters.&nbsp; IN Julia the characters are derived from
+            <a href="https://en.wikipedia.org/wiki/UTF-8" target="_blank">UTF-8</a>&nbsp;which supports the English
+            Latin alphabet as well many non-English characters.&nbsp;
+            UTF-8 is backwards compatible with the <a href="https://en.wikipedia.org/wiki/ASCII"
+                                                      target="_blank">ASCII</a>&nbsp;character
+            set.&nbsp; In Julia, the built-in type is simply called 'String'.&nbsp; It extends the abstract type (more
+            on
+            this later)
+            'AbstractString'.&nbsp; It is often advisable to declare function parameters as the 'AbstractString' type,
+            in
+            order to accept non-UTF8 encoding.&nbsp; Each element of the string is called a 'Char' (short for
+            character),
+            which in turn is a sub-type
+            of the 'AbstractChar' type.&nbsp; All strings are immutable, when a function is performed on a string that
+            would
+            change it, a new String is constructed.
+        </p>
+        <p>
+            There is a large number of String functions available, of which we will cover the more common ones here.&nbsp;
+            The full list of functions can be found in the
+            <a href="https://docs.julialang.org/en/v1/base/strings/#" target="_blank">manual</a>.&nbsp;
+            The next two sections will consist of code examples.
+        </p>
+        <p>
+            This is an integer literal.
+        </p>
+        <pre class="block-code">
+            julia&gt; 1
+            1
+        </pre>
+        <p>
+            This is an floating-point literal.
+        </p>
+        <pre class="block-code">
+            julia&gt; 1.0
+            1.0
+        </pre>
+        <p>
+            The 'typeof' function will tell you the type of literals, and variables. You can note that the default
+            integer
+            and
+            floating point size is 64 bits.
+        </p>
+        <pre class="block-code">
+            julia&gt; typeof(1)
+            Int64
+
+            julia&gt; typeof(1.0)
+            Float64
+        </pre>
+        <p>
+            Integers literals can be defined in hexadecimal. The default type will be choses based on the minimum number
+            of
+            bits.
+        </p>
+        <pre class="block-code">
+            julia&gt; typeof(1)
+            julia&gt; 0x01
+            0x01
+
+            julia&gt; 0x0F
+            0x0f
+
+            julia&gt; 0x0F + 1
+            16
+
+            julia&gt; typeof(0x0f)
+            UInt8
+
+            julia&gt; typeof(0x0ff)
+            UInt16
+
+            julia&gt; typeof(0x0ffff)
+            UInt32
+        </pre>
+        <p>
+            You can also use binary literals.
+        </p>
+        <pre class="block-code">
+            julia&gt; 0b00101001
+            0x29
+        </pre>
+        <p>
+            When assigned to a variable, the variable assumes the type of the literal.
+        </p>
+        <pre class="block-code">
+            julia&gt; x = 1
+            1
+
+            julia&gt; typeof(x)
+            Int64
+        </pre>
+        <p>
+            When using the REPL, you can use the 'ans' keyword to access the last computed value.
+        </p>
+        <pre class="block-code">
+            julia&gt; 0xff
+            0xff
+
+            julia&gt; ans
+            0xff
+
+            julia&gt; typeof(ans)
+            UInt8
+        </pre>
+        <p>
+            Use the 'typemin' and 'typemax' functions to retrieve the minimum and maximum values, respectively, for a
+            type.
+            Note
+            the different declaration, this is a tuple, more on that later.
+        </p>
+        <pre class="block-code">
+            julia&gt; typemax(Int32), typemin(Int32)
+            (2147483647, -2147483648)
+        </pre>
+        <p>
+            You can define a variables type in a function (more on functions in a bit). But not yet globally.
+        </p>
+        <pre class="block-code">
+            julia&gt; function foo()
+            z::Int8 = 0
+            typeof(z)
+            end
+            foo (generic function with 1 method)
+
+            julia&gt; foo()
+            Int8
+
+            z::Int8 = 0
+            ERROR: syntax: type declarations on global variables are not yet supported
+        </pre>
+        <p>
+            Overflow of a value wraps around.
+        </p>
+        <pre class="block-code">
+            julia&gt; a = typemax(UInt8)
+            0xff
+
+            julia&gt; typeof(a)
+            UInt8
+
+            julia&gt; typeof(a+0x01)
+            UInt8
+
+            julia&gt; a + 0x01
+            0x00
+        </pre>
+        <p>
+            Result of arithmatic will be of the largest type.
+        </p>
+        <pre class="block-code">julia&gt; typeof(0x01)
+            UInt8
+
+            julia&gt; typeof(1)
+            Int64
+
+            julia&gt; typeof(0x01 + 1)
+            Int64
+        </pre>
+</div>
+</div>
+
+<div class="section">
+    <h2>Arithmatic Operators</h2>
+    <div class="contents">
+        <p>
+        The following arithmetic operators are supported on all primitive numeric types:
+        </p>
+        <pre class="block-code">
+            # unary plus
+            (identity)
+            julia&gt; +4
+            4
+
+            # unary minus (negation)
+            julia&gt; -1
+            -1
+
+            # addition
+            julia&gt; 1 + 1
+            2
+
+            # subtraction
+            julia&gt; 1 - 1
+            0
+
+            # multiplication
+            julia&gt; 4 * 5
+            20
+
+            # division
+            julia&gt; 20 / 6
+            3.3333333333333335
+
+            # integer division (alt+0247)
+            julia&gt; ÷
+            div (generic function with 54 methods)
+
+            julia&gt; 20 ÷ 6
+            3
+
+            # inverse division (equivelent to y / x)
+            julia&gt; 20 \ 6
+            0.3
+
+            # power
+            julia&gt; 2 ^ 8
+            256
+
+            # remainder
+            julia&gt; 20 % 6
+            2
+
+            # boolean negation
+            julia&gt; !false
+            true
+
+            julia&gt; !true
+            false
+        </pre>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Bitwise Operators</h2>
+    <div class="contents">
+        <p>You can perform bit-wise operations on primitive integer values.&nbsp; We'll be using the 'bitstring'
+            function which shows the individual bits of a number.&nbsp; Because type declarations on global variables is
+            not yet supported, we will be using the
+            convert function to enforce types on global variables. We will be using two different number declaration
+            notataions, 0x for hexadecimal, 0b for binary.
+        </p>
+        <table>
+            <tbody>
+            <tr>
+                <th>Expression</th>
+                <th>Name</th>
+            </tr>
+            <tr>
+                <td><code>~x</code></td>
+                <td>bitwise not</td>
+            </tr>
+            <tr>
+                <td><code>x &amp; y</code></td>
+                <td>bitwise and</td>
+            </tr>
+            <tr>
+                <td><code>x | y</code></td>
+                <td>bitwise or</td>
+            </tr>
+            <tr>
+                <td><code>x ⊻ y</code></td>
+                <td>bitwise xor (exclusive or)</td>
+            </tr>
+            <tr>
+                <td><code>x &gt;&gt;&gt; y</code></td>
+                <td><a href="https://en.wikipedia.org/wiki/Logical_shift">logical shift</a>&nbsp;right</td>
+            </tr>
+            <tr>
+                <td><code>x &gt;&gt; y</code></td>
+                <td><a href="https://en.wikipedia.org/wiki/Arithmetic_shift">arithmetic shift</a>&nbsp;right</td>
+            </tr>
+            <tr>
+                <td><code>x &lt;&lt; y</code></td>
+                <td>logical/arithmetic shift left</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+
+        <pre class="block-code">
+            julia> x = convert(Int8, 0)
+            0
+
+            julia&gt; typeof(x)
+            Int8
+
+            julia&gt; typeof(0x0)
+            UInt8
+
+            julia&gt; typeof(0b0)
+            UInt8
+
+            julia> bitstring(8)
+            "0000000000000000000000000000000000000000000000000000000000001000"
+
+            julia&gt; bitstring(0x8)
+            "00001000"
+
+            # or, set specific bit(s)
+            julia&gt; x = 0x0
+            0x00
+
+            julia&gt; x = x | 0b00010001
+            0x11
+
+            julia&gt; println(x)
+            17
+
+            # and, clear specific bit(s)
+            julia&gt; x = x &amp; 0b00010000
+            0x10
+
+            # flip bits
+            julia&gt; x = 0b01001111
+            0x4f
+
+            julia&gt; x = ~x
+            0xb0
+
+            julia&gt; x = 0b01100110
+            0x66
+
+            julia&gt; bitstring(xor(x, 0b11110000))
+            "10010110"
+
+            julia&gt; x = -81
+            -81
+
+            julia&gt; bitstring(x)
+            "1111111111111111111111111111111111111111111111111111111110101111"
+
+            # logical
+            julia&gt; bitstring(x &gt;&gt;&gt; 2)
+            "0011111111111111111111111111111111111111111111111111111111101011"
+
+            # arithmetic
+            julia&gt; bitstring(x &gt;&gt; 2)
+            "1111111111111111111111111111111111111111111111111111111111101011"
+
+        </pre>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Updating Operators</h2>
+    <div class="contents">
+        The updating versions of all the binary arithmetic and bitwise operators are:
+
+        += -= *= /= \= ÷= %= ^= &= |= ⊻= >>>= >>= <<=
+    </div>
+</div>
+
+<div class="section">
+    <h2>Tuples & Arrays</h2>
+    <div class="contents">
+        <p>
+            This lesson will be a brief introduction to the concept of Tuples and Arrays.&nbsp; &nbsp;An in depth
+            examination will provided in a separate unit.
+        </p>
+        <h3>Tuples</h3>
+        <p>Tuples are build in data type closely related to function arguments and return values.&nbsp; It is a fixed
+            length immutable container that can hold any values.&nbsp; Tuples are constructed by encapsulating comma
+            separated values in a pair of parenthesis.&nbsp;
+            The values within a tuple are ordered, and as such can be accessed by their index.&nbsp; Do note, Julia is a
+            one-indexed language, that is the index numbering starts at '1' as opposed to '0' found in languages like C
+            or Java.&nbsp; Tuples can have
+            any number of parameters.&nbsp; The abstract parent type of a tuple is "Tuple{Any}".</p>
+        <pre class="block-code">
+            # instantiate a new tuple
+            julia&gt; x = (1, 2)
+            (1, 2)
+
+            # tuple is a type, the tuple values have their own types
+            julia&gt; typeof(x)
+            Tuple{Int64,Int64}
+
+            # the types do not have to match
+            julia&gt; typeof((1, 2.0))
+            Tuple{Int64,Float64}
+
+            # the types can be accessed by index
+            julia&gt; x = (1, "apple", 2.0)
+            (1, "apple", 2.0)
+
+            julia&gt; x[2]
+            "apple"
+
+            # tuples can have any number of parameters, including 0.
+            julia&gt;typeof(())
+        </pre>
+        <h3>Arrays</h3>
+        <p>
+        An array is a collection of values in a multi-dimensional grid.&nbsp; An array may contain values of any
+        type, though not required, arrays often contain values of the same type.&nbsp; Julia is a pass-by-reference
+        language, as opposed to pass-by-value.&nbsp;
+        By convention, functions ending with an exclamations mark '!'&nbsp;indicates that the function may mutate or
+        destroy the value of one or more of its arguments.&nbsp;You must make explicit copies of the arguments to ensure
+        that functions don't make unintended
+        modifications.&nbsp; In this lesson we will only cover basic array usage and functions.
+        </p>
+        <pre class="block-code">
+            # array literal
+            julia&gt; x = [1, 2, 3]
+            3-element Array{Int64,1}:
+            1
+            2
+            3
+
+            # array with multiple component types
+            julia&gt; y = [1, "ima string!", 2.0]
+            3-element Array{Any,1}:
+            1
+            "ima string!"
+            2.0
+
+            # zero element array
+            julia&gt; z = []
+            0-element Array{Any,1}
+
+            # access element in array
+            julia&gt; y[2]
+            "ima string!"
+
+            # add element to an array
+            julia&gt; push!(z, 1)
+            1-element Array{Any,1}:
+            1
+
+            julia&gt; z
+            1-element Array{Any,1}:
+            1
+
+            # remove element from array
+            julia&gt; pop!(x)
+            3
+
+            # concatenate an array
+            julia&gt; [x; y;]
+            5-element Array{Any,1}:
+            1
+            2
+            1
+            "ima string!"
+            2.0
+
+            # copy an array (shallow)
+            julia&gt; b = copy(x)
+            2-element Array{Int64,1}:
+            1
+            2
+
+            julia&gt; push!(b, 3)
+            3-element Array{Int64,1}:
+            1
+            2
+            3
+
+            julia&gt; x, b
+            ([1, 2], [1, 2, 3])
+        </pre>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Scope</h2>
+    <div class="contents">
+
+    </div>
+</div>
+
+</body>
+</html>
