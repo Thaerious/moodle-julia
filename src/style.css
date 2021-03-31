@@ -5,6 +5,10 @@
     width: 80%;
 }
 
+.section.skinny{
+    width: 60%;
+}
+
 table{
     border: 1px solid black;
     min-width: 600px;
@@ -22,7 +26,7 @@ table td{
     top: -15px;
 }
 
-.section .contents{
+.section .contents .question{
     position: relative;
     left: 2.5%;
     width: 97.5%;
@@ -31,7 +35,13 @@ table td{
     margin-bottom: 50px;
 }
 
-div.block-code, pre.block-code{
+.question{
+    font-size: 1.3em;
+    line-height: 1.5em;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+div.block-code, pre.block-code, .example{
     font-family: Consolas, monaco, monospace;
     font-weight: normal;
     padding: 5px;
@@ -40,8 +50,12 @@ div.block-code, pre.block-code{
     font-size: 0.9em;
 }
 
+.flush{
+    white-space: pre-line;
+}
+
 pre.block-code.no-pre{
-    white-space: pre-wrap;
+    /* white-space: pre-wrap; */
 }
 
 .inline-code{
