@@ -1,5 +1,5 @@
 run 'npm i' to setup
 
-to indect css:
+to inject css:
 mkdir dest
 node . src dest
