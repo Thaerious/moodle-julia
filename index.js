@@ -17,15 +17,38 @@ if (fs.lstatSync(filepath).isDirectory()) {
     run(filepath);
 }
 
+function flushCode(ele){
+    let text = ele.innerHTML;
+    let split = text.split("\n");
+
+    let i = 0;
+    while (split[i].trim() === "" && i < split.length) i++;
+
+    let ws = split[i].search(/[^ ]/);
+
+    for (let i in split){
+        split[i] = split[i].substring(ws);
+    }
+    ele.innerHTML = split.join("\n");
+}
+
 function run(filepath, target = "dest") {
-    console.log(filepath);
     const source = fs.readFileSync(filepath, 'utf-8');
 
     let juiced = juice.juiceFile(filepath, {}, (err, juiced) => {
-        const dom = new JSDOM(juiced);        
+        const dom = new JSDOM(juiced);
+
+        dom.window.document.querySelectorAll("[flush]").forEach((ele)=>{
+            console.log(ele.innerHTML);
+            flushCode(ele);
+            console.log(ele.innerHTML);
+        });
+
         let index = filepath.lastIndexOf("/");
         let filename = filepath.substr(index);
-        fs.writeFileSync(target + `/` + filename, dom.window.document.body.innerHTML);
+        let dest = target + filename;
+        fs.writeFileSync(dest, dom.window.document.body.innerHTML);
+        console.log(filepath + " => " + dest);
     });
 }
 
