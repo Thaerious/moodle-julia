@@ -8,7 +8,7 @@
 </head>
 
 <body>
-
+<div class="contents">
     <div class="section">
         <h3>Functions</h3>
             <p>Functions are basic building block of higher order programming languages.&nbsp; They permit easy code
@@ -79,50 +79,50 @@
                 return b
                 end
             </div>
-            </div> 
-
-            <div class="section">
-            <h3>Return Type</h3>
-            <p>
-                The return type of a function can be declared using the
-                <span class="inline-code">::</span>
-                operator.&nbsp; The returned value will be converted
-                to the declared type.&nbsp; In the example below the second function 'g()' will cause a conversion
-                error.
-            </p>
-            <div class="block-code">
-
-                julia&gt; function f()::String
-                return "a"
-                end
-
-                julia&gt; function g()::Int
-                return "a"
-                end
             </div>
-            <p>
-                For function that return no value the convention is to return the singleton object 'nothing'.&nbsp; Note
-                that
-                a return statement by it's self by default returns the nothing object.&nbsp; Since Julia will return the
-                last statement evaluated you can make
-                nothing the last statement.&nbsp; The three functions below are logically the same.
-            </p>
-            <div class="block-code">
 
-                julia&gt; function f()
-                return
-                end
+    <div class="section">
+    <h3>Return Type</h3>
+    <p>
+        The return type of a function can be declared using the
+        <span class="inline-code">::</span>
+        operator.&nbsp; The returned value will be converted
+        to the declared type.&nbsp; In the example below the second function 'g()' will cause a conversion
+        error.
+    </p>
+    <div class="block-code">
 
-                julia&gt; function f()
-                end
+        julia&gt; function f()::String
+        return "a"
+        end
 
-                julia&gt; function f()
-                nothing
-                end
+        julia&gt; function g()::Int
+        return "a"
+        end
+    </div>
+    <p>
+        For function that return no value the convention is to return the singleton object 'nothing'.&nbsp; Note
+        that
+        a return statement by it's self by default returns the nothing object.&nbsp; Since Julia will return the
+        last statement evaluated you can make
+        nothing the last statement.&nbsp; The three functions below are logically the same.
+    </p>
+    <div class="block-code">
 
-                julia&gt; typeof(f())
-                Nothing
-            </div>
+        julia&gt; function f()
+        return
+        end
+
+        julia&gt; function f()
+        end
+
+        julia&gt; function f()
+        nothing
+        end
+
+        julia&gt; typeof(f())
+        Nothing
+    </div>
     </div>
 
     <div class="section">
@@ -435,11 +435,11 @@
                 one of two
                 formats: 1) start:end or 2) start:step:end. You can also iterate over an array of values.
             </p>
-            <div class="block-code">
+            <div class="block-code" flush>
 
                 julia&gt; function f()
                 for i = ["cat", 4, "dog", "mouse", 2]
-                println(i)
+                    println(i)
                 end
                 end
                 f (generic function with 1 method)
@@ -472,13 +472,173 @@
 
             widget()
             notWidget()
-        </div>
+
+            <div class="output">=== output ===
+                5
+                13.6
+            </div></div>
         <div class="footer">Scope is not shared between functions</div>
 
+        Besides functions, there are a number of language constructs that also provide scope.  There are two primary types
+        of scope: global, and local.  Variables in the global scope can be accessed from anywhere.  Variables from the local
+        scope can only be accessed from their code block, or a nested inner code block.
 
-        Generally speaking variables will be shared between a parent block and a child block.
-    </div>
+        In the following example the variable a is declared twice, once in global scope, once in local scope.  The local
+        scope doesn't overwrite the local scope.  As you can see in the last print statement, the value initially set
+        is still there.
 
+        <div class="block-code" flush>
+        a = 5
+
+        function widget()
+            a = 10
+            println(a)
+        end
+
+        widget()
+        println(a)
+
+        <div class="output">=== output ===
+        10
+        5
+        </div></div>
+        <div class="footer">Global (module) scope vs local scope.</div>
+
+        Note there is not truly 'global' scope.  All 'global' variables reside within a module namespace.  By default
+        the module is 'Main'.  Here we use the 'names' command to list all the values in the 'Main' <i>namespace</i>.
+        Take note, besides the expected names, 'Main', 'a', and 'widget', there is also the 'Base' and 'Core' modules.
+
+        <div class="block-code" flush>
+            a = 5
+
+            function widget()
+            end
+
+            println(names(Main))
+
+            <div class="output">=== output ===
+            [:Base, :Core, :Main, :a, :widget]
+            </div></div>
+        <div class="footer">Contents of the Main module namespace.</div>
+
+        Functions are "lexically scoped".  This means that functions inherit the variable from the module it's declared
+        in, as opposed to the module it's executed in.  In the following example you can see that the Foo.foo() prints
+        the 'x' from the 'Foo' module, independent of where the function was called.  To be pedantic we print off the
+        two x values to show that they are different.
+        <div class="block-code" flush>
+            module Foo
+                x = 1
+                foo() = println(x)
+            end;
+
+            Foo.foo();
+
+            module Bar
+                import ..Foo
+                x = 5
+                Foo.foo()
+            end;
+
+            println(Foo.x);
+            println(Bar.x);
+
+            <div class="output">=== output ===
+            1
+            1
+            1
+            5
+            </div></div>
+            <div class="footer">Lexical scoping.</div>
+
+        For loops, and while loops introduce their own local scope.  These follow the same rules as a function's local
+        scope.  Note that If blocks and begin blocks do not introduce local scope.
+        <div class="block-code" flush>
+            x = 5
+
+            for i in 1:4
+            x = i * i
+            println("$i $x")
+            end
+
+            println(x)
+            <div class="output">=== output ===
+            1 1
+            2 4
+            3 9
+            4 16
+            5
+            </div></div>
+        <div class="footer">For/While loops scoping.</div>
+
+        <h4>Examples</h4>
+        In this example the variable x is declared in the global scope of the Main (default) module.  When the function
+        fidget refers to this variable it's references the global variable.
+        <div class="block-code" flush>
+            x = 5
+
+            function fidget()
+            println(x);
+            end
+
+            fidget()
+            <div class="output">=== output ===
+                5
+            </div></div>
+        <div class="footer">Global scope used inside a function</div>
+
+        This example throws an error because the 'x = x + 7' line creates a local variable.  Once there is a local
+        variable with the same name as a global variable, the function will attempt the reference the local variable.
+        Since the variable is declared after it's used, an error is thrown.  To fix this we will add the 'global' keyword.
+        <div class="block-code" flush>
+            x = 5
+
+            function fidget()
+                println(x);
+                x = x + 7
+            end
+
+            fidget()
+            <div class="output">=== output ===
+            ERROR: LoadError: UndefVarError: x not defined
+            Stacktrace:
+            [1] fidget() at D:\project\trunk\moodle\julia\snippets\scope.jl:4
+            [2] top-level scope at D:\project\trunk\moodle\julia\snippets\scope.jl:8
+            [3] include(::Module, ::String) at .\Base.jl:377
+            [4] exec_options(::Base.JLOptions) at .\client.jl:288
+            [5] _start() at .\client.jl:484
+            in expression starting at D:\project\trunk\moodle\julia\snippets\scope.jl:8
+            </div></div>
+        <div class="footer">Confused local-global scope</div>
+
+        In this example the 'global' keyword let the interpreter know you mean to reassign a value to the global
+        variable and not create a new local variable.  In practice however, this can be confusing and usages of globals
+        should be limited and well documented.
+        <div class="block-code" flush>
+            x = 5
+
+            function fidget()
+            println(x);
+            global x = x + 7
+            end
+
+            fidget()
+            println(x)
+            <div class="output">=== output ===
+            5
+            12
+            </div></div>
+        <div class="footer">Confused local-global scope</div>
+
+        <h4>Caveat</h4>
+        <p>
+            The rules for scoping presented here are in a non-interactive context. In an interactive context (REPL)
+            there is a different, more complicated, set of scoping rules. Since any code more complex than a few lines
+            should be run non-interactively, we only cover the non-interactive case. For further information refer to
+            the manual.
+            <br>
+            https://docs.julialang.org/en/v1/manual/variables-and-scoping/
+        </p>
+        </div>
+</div>
 </body>
-
 </html>

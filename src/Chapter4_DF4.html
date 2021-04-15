@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="contents">
+    <div class="section">
+        <h3>Adding & Removing Columns</h3>
+
+        <div class="block-code" flush>
+            df = DataFrame(firstname=["John", "Anne", "Kim"],mark=[75,80,93])
+            insertcols!(df,2,:lastname=>["Smith","Don","Ye"])
+        </div>
+        <div class="footer">Inserting a column.</div>
+
+        <div class="block-code" flush>
+            cars = CSV.read("mtcars.csv")
+            d1 = cars[:,[:model,:cyl]]
+            mpg = cars[:,:mpg]
+            d1["mpg"] = mpg
+        </div>
+        <div class="footer">Appending a column.</div>
+
+        <div class="block-code" flush>
+            cars0 = deepcopy(cars)
+            deletecols!(cars,:mpg)
+            deletecols!(cars,2)
+        </div>
+        <div class="footer">Removing a column by name then index.</div>
+    </div>
+
+    <div class="section">
+
+        <h3>Adding & Removing Rows</h3>
+        <div class="block-code" flush>
+            push!(df,("Jen","Doe",78)) # or push!(df,["Jen","Doe",78])
+        </div>
+        <div class="footer">Appending a row.</div>
+
+        You can append data frames as long as the column count of both frames match.
+        <div class="block-code" flush>
+            df2 = DataFrame(firstname="Jen",lastname="Doe",mark=81)
+            append!(df,df2)
+        </div>
+        <div class="footer">Appending a data frame.</div>
+
+        The following adds a new row ("Jen","Doe",78) to the data frame df, at row 2.
+        <br>
+        Note, there are two operations taking place. First <ic>eachcol(df)</ic> returns columns of data frame df.
+        Then the function <ic>insert!()</ic> is applied to each column (this is what the <b>.</b> operator does) at row index 2.
+        <div class="block-code" flush>
+            insert!.(eachcol(df),2,("Jen","Doe",78))
+        </div>
+        <div class="footer">Inserting a row at a specific index.</div>
+
+        To remove one or more rows from the data frame use 'deleterows!'.
+        <div class="block-code" flush>
+            deleterows!(df,4)
+            deleterows!(df,4:5)
+        </div>
+        <div class="footer">Remove a row from the data frame.</div>
+    </div>
+
+    <div class="section">
+        <h3>Replacing Data</h3>
+        <div class="block-code" flush>
+            rename(df, :fistname=>:Firstname)
+            rename(uppercase,df)
+
+            rename!(df, :fistname=>:Firstname)
+            rename!(uppercase,df)
+        </div>
+        <div class="footer">Renaming a field.</div>
+
+    <div class="block-code" flush>
+        df[1,2]
+        df[1,2] = "Stubbs"
+
+        df.lastname=["Smith","Don","Ip","Little"]
+        df.mark=[77,85,93,82]
+    </div>
+    <div class="footer">Changing values.</div>
+
+    <div class="block-code" flush>
+        using DataFrames, CSV
+        df = DataFrame(A = 1:5, B = 5:-1:1)
+        5×2 DataFrame
+        │ Row │ A     │ B     │
+        │     │ Int64 │ Int64 │
+        ├─────┼───────┼───────┤
+        │ 1   │ 1     │ 5     │
+        │ 2   │ 2     │ 4     │
+        │ 3   │ 3     │ 3     │
+        │ 4   │ 4     │ 2     │
+        │ 5   │ 5     │ 1     │
+
+        sort(df,:B)
+        5×2 DataFrame
+        │ Row │ A     │ B     │
+        │     │ Int64 │ Int64 │
+        ├─────┼───────┼───────┤
+        │ 1   │ 5     │ 1     │
+        │ 2   │ 4     │ 2     │
+        │ 3   │ 3     │ 3     │
+        │ 4   │ 2     │ 4     │
+        │ 5   │ 1     │ 5     │
+    </div>
+    <div class="footer">Sorting.</div>
+</div>
+
+    <div class="section">
+        <h3>Merging Two DataFrames</h3>
+
+        It is often a common task of merging two data sheets together, for example, one sheet contains studnet IDs and
+        marks, another sheet contains students' names, IDs, etc. We want to merge the two into one, so that it contains
+        names, IDs and marks. Such operations are called <b>join</b>.
+
+        <div class="block-code" flush>
+            marks = DataFrame(id=[7501,7523,5612,6555],mark=[73,64,83,94])
+            students=DataFrame(id=[7501,7523,5612,6555],
+            lastname=["Smith","Stone","Tse","Crosby"])
+
+            innerjoin(marks,students, on=:id)
+            4×3 DataFrame
+            │ Row │ id    │ mark  │ lastname │
+            │     │ Int64 │ Int64 │ String   │
+            ├─────┼───────┼───────┼──────────┤
+            │ 1   │ 7501  │ 73    │ Smith    │
+            │ 2   │ 7523  │ 64    │ Stone    │
+            │ 3   │ 5612  │ 83    │ Tse      │
+            │ 4   │ 6555  │ 94    │ Crosby   │
+            Sometimes, the two datasets we want to
+        </div>
+        <div class="footer">Example</div>
+
+        Sometimes, the two datasets we want to merge do not have exact match. Then we often want to include just the
+        data that have some keys in common, i.e. an intersection operation or we just include the data from both and
+        perform a union operation. The join operations are closely related to SQL database join operations. See the
+        references to SQL database operations for more details.
+
+        <div class="block-code" flush>
+            marks = DataFrame(id=[4321,7501,7523,5612,6555],mark=[90,73,64,83,94])
+            students=DataFrame(id=[5612,6555,7501,7523,6001],
+            lastname=["Tse","Crosby","Smith","Stone","Ip"])
+
+            innerjoin(marks,students,on=:id)
+            4×3 DataFrame
+            │ Row │ id    │ mark  │ lastname │
+            │     │ Int64 │ Int64 │ String   │
+            ├─────┼───────┼───────┼──────────┤
+            │ 1   │ 7501  │ 73    │ Smith    │
+            │ 2   │ 7523  │ 64    │ Stone    │
+            │ 3   │ 5612  │ 83    │ Tse      │
+            │ 4   │ 6555  │ 94    │ Crosby   │
+
+            outerjoin(marks,students,on=:id)
+            6×3 DataFrame
+            │ Row │ id    │ mark    │ lastname │
+            │     │ Int64 │ Int64?  │ String?  │
+            ├─────┼───────┼─────────┼──────────┤
+            │ 1   │ 4321  │ 90      │ missing  │
+            │ 2   │ 7501  │ 73      │ Smith    │
+            │ 3   │ 7523  │ 64      │ Stone    │
+            │ 4   │ 5612  │ 83      │ Tse      │
+            │ 5   │ 6555  │ 94      │ Crosby   │
+            │ 6   │ 6001  │ missing │ Ip       │
+        </div>
+        <div class="footer">Example</div>
+    </div>
+
+    <div class="section">
+        <h3>Aggregation</h3>
+        <p>
+        Often data analysis requires splitting a date set into groups, applying some options to each of the groups and
+        then combine the results. This is referred to as "split-apply-combine" operations.
+        </p>
+        <p>
+        We create a data frame, then perform a taks of summation by group.
+        </p>
+        <div class="block-code" flush>
+            julia> a = ["A","B","C","A","D","D","G","A"]
+            8-element Array{String,1}:
+            "A"
+            "B"
+            "C"
+            "A"
+            "D"
+            "D"
+            "G"
+            "A"
+        </div>
+        <div class="footer">Example</div>
+
+        <p>We now convert the string representation to categorical data, with full strings replaced by indices into a
+            small pool of levels, which is more efficient for internal data processing.</p>
+
+        <div class="block-code" flush>
+            julia> a1 = categorical(a)
+            8-element CategoricalArray{String,1,UInt32}:
+            "A"
+            "B"
+            "C"
+            "A"
+            "D"
+            "D"
+            "G"
+            "A"
+
+            julia> levels(a1)
+            5-element Array{String,1}:
+            "A"
+            "B"
+            "C"
+            "D"
+            "G"
+
+            julia> b = repeat([2, 1], outer=[4])
+            8-element Array{Int32,1}:
+            2
+            1
+            2
+            1
+            2
+            1
+            2
+            1
+
+            julia> c = 1:8
+            1:8
+
+            julia> df = DataFrame(a=a1,b=b,c=c)
+            8×3 DataFrame
+            │ Row │ a    │ b     │ c     │
+            │     │ Cat… │ Int32 │ Int32 │
+            ├─────┼──────┼───────┼───────┤
+            │ 1   │ A    │ 2     │ 1     │
+            │ 2   │ B    │ 1     │ 2     │
+            │ 3   │ C    │ 2     │ 3     │
+            │ 4   │ A    │ 1     │ 4     │
+            │ 5   │ D    │ 2     │ 5     │
+            │ 6   │ D    │ 1     │ 6     │
+            │ 7   │ G    │ 2     │ 7     │
+            │ 8   │ A    │ 1     │ 8     │
+        </div>
+        <div class="footer">Example</div>
+
+        <p>Now we want to do an aggregation: sum column c by group in a.</p>
+        <p>Note, the output contains three columns: The column a by which we group the elements; the summation c_sum for
+            each group and a column nrow of counts.</p>
+        <div class="block-code" flush>
+            julia> gd = groupby(df,:a)
+            GroupedDataFrame with 5 groups based on key: a
+            First Group (3 rows): a = "A"
+            │ Row │ a    │ b     │ c     │
+            │     │ Cat… │ Int32 │ Int32 │
+            ├─────┼──────┼───────┼───────┤
+            │ 1   │ A    │ 2     │ 1     │
+            │ 2   │ A    │ 1     │ 4     │
+            │ 3   │ A    │ 1     │ 8     │
+            ⋮
+            Last Group (1 row): a = "G"
+            │ Row │ a    │ b     │ c     │
+            │     │ Cat… │ Int32 │ Int32 │
+            ├─────┼──────┼───────┼───────┤
+            │ 1   │ G    │ 2     │ 7     │
+
+            julia> combine(gd, :c=>sum, nrow)
+            5×3 DataFrame
+            │ Row │ a      │ c_sum │ nrow  │
+            │     │ String │ Int32 │ Int32 │
+            ├─────┼────────┼───────┼───────┤
+            │ 1   │ A      │ 13    │ 3     │
+            │ 2   │ B      │ 2     │ 1     │
+            │ 3   │ C      │ 3     │ 1     │
+            │ 4   │ D      │ 11    │ 2     │
+            │ 5   │ G      │ 7     │ 1     │
+        </div>
+        <div class="footer">Example</div>
+    </div>
+
+        <div class="section">
+            <h3>Categorical Data</h3>
+
+            <p>
+            Many data sets involve strings. A column in a data frame is an array. If a column of data set contains
+            strings, one way of encoding is to represent every element as a full string. But sometimes this is not an
+            efficient choice.
+            </p>
+
+            <div class="block-code" flush>
+                julia> v = ["Group A", "Group A", "Group A", "Group B", "Group B", "Group B"]
+                6-element Array{String,1}:
+                "Group A"
+                "Group A"
+                "Group A"
+                "Group B"
+                "Group B"
+                "Group B"
+            </div>
+            <div class="footer">Example</div>
+
+            <p>Instead, we can represent the vector of strings by replacing each one of them with an index, hence, we
+                only need to store a smaller set of "levels".</p>
+
+            <div class="block-code" flush>
+                julia> cv = CategoricalArray(v)
+                6-element CategoricalArray{String,1,UInt32}:
+                "Group A"
+                "Group A"
+                "Group A"
+                "Group B"
+                "Group B"
+                "Group B"
+            </div>
+            <div class="footer">Example</div>
+
+            <p>Let's examine the levels</p>
+            <div class="block-code" flush>
+                julia> levels(cv)
+                2-element Array{String,1}:
+                "Group A"
+                "Group B"
+            </div>
+            <div class="footer">Example</div>
+
+            <p>Data frames created in julia are not stored in categorical form by default. One convert the form of
+                storage by calling <ic>categorical()</ic> function</p>
+
+            <p>To see the internal structure of a data frame, use <ic>dump()</ic></p>
+
+            <div class="block-code" flush>
+                julia> df = DataFrame(x = ["A","B","B","C","D"], y = 1:5)
+                5×2 DataFrame
+                │ Row │ x      │ y     │
+                │     │ String │ Int32 │
+                ├─────┼────────┼───────┤
+                │ 1   │ A      │ 1     │
+                │ 2   │ B      │ 2     │
+                │ 3   │ B      │ 3     │
+                │ 4   │ C      │ 4     │
+                │ 5   │ D      │ 5     │
+
+                julia> categorical(df)
+                5×2 DataFrame
+                │ Row │ x    │ y     │
+                │     │ Cat… │ Int32 │
+                ├─────┼──────┼───────┤
+                │ 1   │ A    │ 1     │
+                │ 2   │ B    │ 2     │
+                │ 3   │ B    │ 3     │
+                │ 4   │ C    │ 4     │
+                │ 5   │ D    │ 5     │
+            </div>
+            <div class="footer">Example</div>
+        </div>
+            <div class="section">
+                <h3>Missing Data</h3>
+                <p>
+                It's common that sometimes the data we have are missing some values. For example, in the CSV file
+                "mtcars_hasna.csv", some values are missing in column disp. What if we want to get an avergage of the
+                values in disp?
+                </p>
+                <div class="block-code" flush>
+                    julia> cars = CSV.read("mtcars_hasna.csv")
+                    32×12 DataFrame. Omitted printing of 6 columns
+                    │ Row │ model               │ mpg     │ cyl   │ disp     │ hp    │ drat    │
+                    │     │ String              │ Float64 │ Int64 │ Float64? │ Int64 │ Float64 │
+                    ├─────┼─────────────────────┼─────────┼───────┼──────────┼───────┼─────────┤
+                    │ 1   │ Mazda RX4           │ 21.0    │ 6     │ missing  │ 110   │ 3.9     │
+                    │ 2   │ Mazda RX4 Wag       │ 21.0    │ 6     │ 160.0    │ 110   │ 3.9     │
+                    │ 3   │ Datsun 710          │ 22.8    │ 4     │ 108.0    │ 93    │ 3.85    │
+                    │ 4   │ Hornet 4 Drive      │ 21.4    │ 6     │ 258.0    │ 110   │ 3.08    │
+                    │ 5   │ Hornet Sportabout   │ 18.7    │ 8     │ 360.0    │ 175   │ 3.15    │
+                    │ 6   │ Valiant             │ 18.1    │ 6     │ missing  │ 105   │ 2.76    │
+                    │ 7   │ Duster 360          │ 14.3    │ 8     │ 360.0    │ 245   │ 3.21    │
+                    │ 8   │ Merc 240D           │ 24.4    │ 4     │ 146.7    │ 62    │ 3.69    │
+                    │ 9   │ Merc 230            │ 22.8    │ 4     │ 140.8    │ 95    │ 3.92    │
+                    │ 10  │ Merc 280            │ 19.2    │ 6     │ 167.6    │ 123   │ 3.92    │
+                </div>
+                <div class="footer">Example</div>
+
+                <p>
+                One way of doing this is in general programming languages is to loop all the elements, skipping the
+                missing value and then get the mean of the non-missing values. The other ways is already built in the
+                support of data frames. Users don't have to worry about it, the built-in functions will handle missing
+                values transparently. For example
+                </p>
+
+                <div class="block-code" flush>
+                    using Statistics
+                    mean(cars.disp)
+                    mean(skipmissing(cars.disp))
+                </div>
+                <div class="footer">Example</div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,22 +1,29 @@
 using Printf
 
-function bubbleSort(anArray)
-  
-    for i = 1:length(anArray)
-        for j = i:length(anArray)
-            if anArray[i] > anArray[j]
-                temp = anArray[j]
-                anArray[j] = anArray[i]
-                anArray[i] = temp
-            end
+function removeDuplicates(anArray)
+    leftIndex = 1
+    rightIndex = 2
+    
+    while rightIndex <= length(anArray)        
+        if anArray[leftIndex] == anArray[rightIndex] 
+            rightIndex = rightIndex + 1
+        else
+            leftIndex = leftIndex + 1
+            anArray[leftIndex] = anArray[rightIndex]
+            rightIndex = rightIndex + 1            
         end
     end
+    return leftIndex
 end
 
-anArray = [1, 3, 2]
-bubbleSort(anArray)
-println(anArray)
+anArray = [1, 2, 2, 3, 4, 5, 5, 5, 6]
+r = removeDuplicates(anArray)
+println(resize!(anArray, r))
 
-anArray = [9, 3, 1, 2, 6, 2, 7, 8, 9, 0]
-bubbleSort(anArray)
-println(anArray)
+anArray = [1, 1, 1, 4, 5, 5, 5, 6, 9, 10]
+r = removeDuplicates(anArray)
+println(resize!(anArray, r))
+
+anArray = [1, 1, 2]
+r = removeDuplicates(anArray)
+println(resize!(anArray, r))

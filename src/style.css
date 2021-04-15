@@ -72,6 +72,10 @@ div.block-code, .example{
     margin-top: 30px;
 }
 
+div.block-code .output{
+    color: #0a0aa0;
+}
+
 .footer{
     position: relative;
     text-align: center;
@@ -85,15 +89,15 @@ div.block-code, .example{
     white-space: pre-line;
 }
 
-.inline-code{
+.inline-code, ic{
     font-family: Consolas, monaco, monospace;
-    font-weight: bold;
+    font-weight: 500;
     padding: 0px 2px 0px 2px;
     border: 1px solid grey;
     background-color: #eee;
 }
 
-.text-code{
+.text-code, tc{
     font-family: Consolas, monaco, monospace;
     font-weight: bold;
 }

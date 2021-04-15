@@ -1,29 +1,19 @@
 using Printf
 
-function removeDuplicates(anArray)
-    leftIndex = 1
-    rightIndex = 2
-    
-    while rightIndex <= length(anArray)        
-        if anArray[leftIndex] == anArray[rightIndex] 
-            rightIndex = rightIndex + 1
-        else
-            leftIndex = leftIndex + 1
-            anArray[leftIndex] = anArray[rightIndex]
-            rightIndex = rightIndex + 1            
-        end
+function reverseArray(anArray)
+    l = length(anArray)
+    returnArray = Array{Int, 1}(undef, l)
+    for i in 1:l
+        returnArray[l-i+1] = anArray[i]
     end
-    return leftIndex
+
+    return returnArray
 end
 
-anArray = [1, 2, 2, 3, 4, 5, 5, 5, 6]
-r = removeDuplicates(anArray)
-println(resize!(anArray, r))
+anArray = [5, 2, 4, 3]
+r = reverseArray(anArray)
+println(r)
 
-anArray = [1, 1, 1, 4, 5, 5, 5, 6, 9, 10]
-r = removeDuplicates(anArray)
-println(resize!(anArray, r))
-
-anArray = [1, 1, 2]
-r = removeDuplicates(anArray)
-println(resize!(anArray, r))
+anArray = [11, 22, 1, 1, 99, 101]
+r = reverseArray(anArray)
+println(r)

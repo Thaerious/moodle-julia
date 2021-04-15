@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="contents">
+    <div class="section">
+        <h3>
+            Importing/Exporting Data Frames from/to Files</h3>
+        <div class="block-code" flush>
+            using CSV
+            using DataFrames
+            cars = DataFrame(CSV.File("mtcars.csv"))
+        </div>
+        <div class="footer">Loading the CSV module.</div>
+
+        <div class="block-code" flush>
+            ?
+            help> CSV.File
+        </div>
+        <div class="footer">Getting Help.</div>
+
+        <div class="block-code" flush>
+            @time cars = DataFrame(CSV.File("mtcars.csv"))
+            @time cars1 = DataFrame(CSV.File("mtcars.csv"))
+        </div>
+        <div class="footer">Timing csv load.</div>
+    </div>
+</div>
+</body>
+</html>

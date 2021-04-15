@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="contents">
+        <div class="section">
+            <h3>Viewing a Dataframe</h3>
+            <div class="block-code" flush>
+                names(df)
+                df.firstname
+                df."firstname"
+                nrow(df)
+                ncol(df)
+                size(df)
+                ndims(df)
+                first(df)
+                first(df,2)
+                last(df)
+                last(df,2)
+            </div>
+            <div class="footer">Functions to view a Dataframe</div>
+        </div>
+
+        <div class="section">
+            <h3>Manipulating a Dataframe</h3>
+            <div class="block-code" flush>
+                cars
+                cars[:,[:model,:mpg,:cyl]]
+                cars[[cars.cyl .>= 6],:]
+                cars[cars.cyl .>=6,[:model,:cyl]]
+            </div>
+            <div class="footer">Selecting a Subset</div>
+
+            Here we have two conditions, <ic>cars.mpg .>= 20</ic> and <ic>cars.hp .>= 100</ic>. Each returns an array of
+            boolean values.  When the <ic>.&</ic> operator combines them.
+            <div class="block-code" flush>
+                cars[(cars.mpg .>= 20) .& (cars.hp .>= 100),:]
+            </div>
+            <div class="footer">Combining conditions when selecting rows and columns.</div>
+
+            We can use the <ic>select()</ic> function to select a subset of the DataFrame.
+            <div class="block-code" flush>
+                select(cars,Not([:mpg,:cyl]))
+            </div>
+            <div class="footer">Select all columns except 'mpg' and 'cyl'.</div>
+        </div>
+
+    </div>
+</body>
+</html>
